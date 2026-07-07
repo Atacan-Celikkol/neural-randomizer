@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Warm Elegant Biotech Light Mode */
+  --peloka-bg-dark: #efeae2;
+  --peloka-bg: #faf7f2;
+  --peloka-surface: #ffffff;
+  --peloka-surface-high: #f3ede2;
+  --peloka-surface-highest: #dfd6c7;
+  --peloka-primary: #e06a00;
+  --peloka-primary-container: #ff8c00;
+  --peloka-on-primary: #ffffff;
+  --peloka-on-surface: #2c1a0f;
+  --peloka-on-surface-variant: #5c4638;
+  --peloka-blue: #1d4ed8;
+  --peloka-blue-dark: #dbeafe;
+  --peloka-teal: #0f766e;
+  --peloka-bronze: #c2410c;
+  
+  --scrollbar-thumb: rgba(224, 106, 0, 0.25);
+  --scrollbar-track: rgba(239, 234, 226, 0.4);
+}
+
+.dark {
+  /* Original Bio-Tech Dark Mode */
+  --peloka-bg-dark: #150c06;
+  --peloka-bg: #1b110a;
+  --peloka-surface: #241912;
+  --peloka-surface-high: #33281f;
+  --peloka-surface-highest: #3f3229;
+  --peloka-primary: #ffb77d;
+  --peloka-primary-container: #ff8c00;
+  --peloka-on-primary: #4d2600;
+  --peloka-on-surface: #f3dfd1;
+  --peloka-on-surface-variant: #ddc1ae;
+  --peloka-blue: #adc7f7;
+  --peloka-blue-dark: #133057;
+  --peloka-teal: #14b8a6;
+  --peloka-bronze: #ea9748;
+
+  --scrollbar-thumb: rgba(255, 183, 125, 0.25);
+  --scrollbar-track: rgba(21, 12, 6, 0.4);
+}
+
+@theme {
+  --font-display: "Hanken Grotesk", sans-serif;
+  --font-sans: "Manrope", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-geist: "Geist", sans-serif;
+
+  /* Theme Palette mapped to dynamic CSS variables */
+  --color-peloka-bg-dark: var(--peloka-bg-dark);
+  --color-peloka-bg: var(--peloka-bg);
+  --color-peloka-surface: var(--peloka-surface);
+  --color-peloka-surface-high: var(--peloka-surface-high);
+  --color-peloka-surface-highest: var(--peloka-surface-highest);
+  --color-peloka-primary: var(--peloka-primary);
+  --color-peloka-primary-container: var(--peloka-primary-container);
+  --color-peloka-on-primary: var(--peloka-on-primary);
+  --color-peloka-on-surface: var(--peloka-on-surface);
+  --color-peloka-on-surface-variant: var(--peloka-on-surface-variant);
+  --color-peloka-blue: var(--peloka-blue);
+  --color-peloka-blue-dark: var(--peloka-blue-dark);
+  --color-peloka-teal: var(--peloka-teal);
+  --color-peloka-bronze: var(--peloka-bronze);
+}
+
+@layer utilities {
+  /* Glowing classes */
+  .glow-orange {
+    box-shadow: 0 0 20px rgba(255, 137, 0, 0.25);
+  }
+  .glow-orange-lg {
+    box-shadow: 0 0 35px rgba(255, 137, 0, 0.45);
+  }
+  .glow-teal {
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.35);
+  }
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(173, 199, 247, 0.25);
+  }
+}
+
+/* Keyframes for custom pulsing and scanning */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes scanning {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.animate-scan {
+  animation: scanning 3s infinite linear;
+}
+
+.animate-float {
+  animation: float 4s infinite ease-in-out;
+}
+
+/* Custom scrollbar configurations for all scrollable containers */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.2s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb);
+  filter: brightness(1.2);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Hide default browser number input spin controls for premium flat layout */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
