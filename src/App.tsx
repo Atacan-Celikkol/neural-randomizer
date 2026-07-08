@@ -35,19 +35,14 @@ export default function App() {
   // Sync dark class and theme color meta tags to root on change
   useEffect(() => {
     const root = document.documentElement;
-    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (!metaThemeColor) {
-      metaThemeColor = document.createElement('meta');
-      metaThemeColor.setAttribute('name', 'theme-color');
-      document.head.appendChild(metaThemeColor);
-    }
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
 
     if (darkMode) {
       root.classList.add('dark');
-      metaThemeColor.setAttribute('content', '#150c06'); // Match dark background
+      if (metaThemeColor) metaThemeColor.setAttribute('content', '#150c06');
     } else {
       root.classList.remove('dark');
-      metaThemeColor.setAttribute('content', '#efeae2'); // Match light background
+      if (metaThemeColor) metaThemeColor.setAttribute('content', '#efeae2');
     }
   }, [darkMode]);
 
@@ -347,8 +342,8 @@ export default function App() {
               <button
                 onClick={() => setTab('list')}
                 className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${tab === 'list'
-                    ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
-                    : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
+                  ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
+                  : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
                   }`}
               >
                 <ListCollapse className="w-3.5 h-3.5" />
@@ -358,8 +353,8 @@ export default function App() {
               <button
                 onClick={() => setTab('range')}
                 className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${tab === 'range'
-                    ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
-                    : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
+                  ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
+                  : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
                   }`}
               >
                 <Sliders className="w-3.5 h-3.5" />
@@ -369,8 +364,8 @@ export default function App() {
               <button
                 onClick={() => setTab('quick')}
                 className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${tab === 'quick'
-                    ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
-                    : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
+                  ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
+                  : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
                   }`}
               >
                 <Zap className="w-3.5 h-3.5" />
