@@ -1,6 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+html {
+  background-color: var(--peloka-bg-dark);
+  color: var(--peloka-on-surface);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: var(--peloka-bg);
+  color: var(--peloka-on-surface);
+}
+
 :root {
   /* Warm Elegant Biotech Light Mode */
   --peloka-bg-dark: #efeae2;

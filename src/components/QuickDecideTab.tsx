@@ -108,7 +108,7 @@ export default function QuickDecideTab(props: QuickDecideTabProps) {
               onChange={(e) => setChoiceA(e.target.value)}
               disabled={isDeciding}
               placeholder="e.g., Option Alpha"
-              className="px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-on-surface font-sans text-xs placeholder-peloka-on-surface-variant/30 outline-none focus:border-peloka-bronze/60 focus:ring-1 focus:ring-peloka-bronze/30 transition-all"
+              className="px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-on-surface font-sans text-base md:text-xs placeholder-peloka-on-surface-variant/30 outline-none focus:border-peloka-bronze/60 focus:ring-1 focus:ring-peloka-bronze/30 transition-all"
             />
           </div>
 
@@ -120,7 +120,7 @@ export default function QuickDecideTab(props: QuickDecideTabProps) {
               onChange={(e) => setChoiceB(e.target.value)}
               disabled={isDeciding}
               placeholder="e.g., Option Beta"
-              className="px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-on-surface font-sans text-xs placeholder-peloka-on-surface-variant/30 outline-none focus:border-peloka-bronze/60 focus:ring-1 focus:ring-peloka-bronze/30 transition-all"
+              className="px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-on-surface font-sans text-base md:text-xs placeholder-peloka-on-surface-variant/30 outline-none focus:border-peloka-bronze/60 focus:ring-1 focus:ring-peloka-bronze/30 transition-all"
             />
           </div>
         </div>

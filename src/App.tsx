@@ -3,24 +3,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Cpu, ListCollapse, Sliders, Zap } from 'lucide-react';
 import Header from './components/Header';
 import ListPickerTab from './components/ListPickerTab';
 import RangeTab from './components/RangeTab';
 import QuickDecideTab from './components/QuickDecideTab';
 import OutcomePanel from './components/OutcomePanel';
+import InfoModal from './components/InfoModal';
 import { TabType, LogEntry, LogCategory, DecisionOutcome } from './types';
 import { useLanguage } from './lib/LanguageContext';
 
 export default function App() {
   const { t, language } = useLanguage();
+  const outcomeRef = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState<TabType>('list');
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [outcome, setOutcome] = useState<DecisionOutcome | null>(null);
   const [isDeciding, setIsDeciding] = useState<boolean>(false);
   const [systemStatus, setSystemStatus] = useState<'NOMINAL' | 'CALIBRATING' | 'DECIDING' | 'COMPLETED'>('NOMINAL');
+  const [modalType, setModalType] = useState<'privacy' | 'terms' | 'support' | null>(null);
 
   // We track what active parameters were used for Re-decide
   const [lastRunConfig, setLastRunConfig] = useState<{
@@ -28,17 +31,28 @@ export default function App() {
     data: any;
   } | null>(null);
 
-  // Sync dark class to root on change
+  // Sync dark class and theme color meta tags to root on change
   useEffect(() => {
     const root = document.documentElement;
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement('meta');
+      metaThemeColor.setAttribute('name', 'theme-color');
+      document.head.appendChild(metaThemeColor);
+    }
+
     if (darkMode) {
       root.classList.add('dark');
+      metaThemeColor.setAttribute('content', '#150c06'); // Match dark background
     } else {
       root.classList.remove('dark');
+      metaThemeColor.setAttribute('content', '#efeae2'); // Match light background
     }
   }, [darkMode]);
 
+  // Seed initial translated logs once translations are loaded or language switches
   useEffect(() => {
+    // Only seed if empty or previously loaded in different language
     const now = new Date();
     const timeStr = now.toLocaleTimeString();
     setLogs([
@@ -90,6 +104,11 @@ export default function App() {
     setOutcome(null);
     setLastRunConfig(config);
 
+    // Smoothly scroll to the Outcome Node so the user immediately sees the visual feedback (especially on mobile devices)
+    setTimeout(() => {
+      outcomeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 60);
+
     // Simulated premium high-tech delay sequence
     setTimeout(() => {
       addLog(t.logCognitive, LogCategory.SYSTEM);
@@ -116,7 +135,7 @@ export default function App() {
         setOutcome(outcomeObj);
         setIsDeciding(false);
         setSystemStatus('COMPLETED');
-
+        
         const logMsg = t.logOutcomeResolved.replace('"{val}"', `"${result.value}"`);
         addLog(`${logMsg} "${result.value}"`, LogCategory.NODE);
       } catch (err: any) {
@@ -140,7 +159,7 @@ export default function App() {
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
         const randomThreshold = Math.random() * totalWeight;
         let cumulativeWeight = 0;
-
+        
         for (let i = 0; i < items.length; i++) {
           cumulativeWeight += weights[i];
           if (randomThreshold <= cumulativeWeight) {
@@ -148,7 +167,7 @@ export default function App() {
             break;
           }
         }
-
+        
         const probabilityPercent = ((weights[selectedIndex] / totalWeight) * 100).toFixed(1);
         infoString = t.infoWeighted
           .replace('{probability}', probabilityPercent)
@@ -199,12 +218,12 @@ export default function App() {
         for (let i = 0; i < count; i++) {
           let attempts = 0;
           let num = Math.floor(min + Math.random() * (difference + 1));
-
+          
           while (!allowDuplicates && used.has(num) && attempts < 1000) {
             num = Math.floor(min + Math.random() * (difference + 1));
             attempts++;
           }
-
+          
           used.add(num);
           results.push(num.toString());
         }
@@ -278,8 +297,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen font-sans bg-peloka-bg text-peloka-on-surface transition-colors duration-300 flex flex-col relative">
-
+    <div className="min-h-screen font-sans bg-peloka-bg text-peloka-on-surface transition-colors duration-300 flex flex-col relative overflow-x-hidden max-w-full">
+      
       {/* Absolute Decorative Grid Backdrops */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-peloka-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -293,7 +312,7 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 md:px-8 py-8 md:py-12 flex flex-col justify-center relative z-10">
-
+        
         {/* App Title Center Panel */}
         <div className="text-center mb-8 md:mb-12 select-none">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-peloka-primary/10 border border-peloka-primary/25 rounded-full font-mono text-[10px] text-peloka-primary tracking-widest uppercase mb-4 animate-pulse-glow">
@@ -318,7 +337,7 @@ export default function App() {
 
         {/* Dashboard Grid split 3/2 */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 items-stretch">
-
+          
           {/* Left panel: Control Input tabs */}
           <div className="lg:col-span-3 flex flex-col border border-peloka-surface-high/60 rounded-2xl bg-peloka-surface-container-low/90 backdrop-blur-md overflow-hidden shadow-xl">
             {/* Tab selector */}
@@ -334,7 +353,7 @@ export default function App() {
                 <ListCollapse className="w-3.5 h-3.5" />
                 {t.listPicker}
               </button>
-
+              
               <button
                 onClick={() => setTab('range')}
                 className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
@@ -346,7 +365,7 @@ export default function App() {
                 <Sliders className="w-3.5 h-3.5" />
                 {t.range}
               </button>
-
+              
               <button
                 onClick={() => setTab('quick')}
                 className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
@@ -387,7 +406,7 @@ export default function App() {
           </div>
 
           {/* Right panel: Outcome displaying node */}
-          <div className="lg:col-span-2">
+          <div ref={outcomeRef} className="lg:col-span-2 scroll-mt-6">
             <OutcomePanel
               outcome={outcome}
               isDeciding={isDeciding}
@@ -406,15 +425,37 @@ export default function App() {
       <footer className="w-full py-8 mt-12 border-t border-peloka-surface-high/20 bg-peloka-bg-dark/40 backdrop-blur-md relative z-10 select-none text-center">
         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-3">
           <div className="flex items-center gap-6 font-sans text-xs text-peloka-on-surface-variant/60 hover:text-peloka-on-surface-variant transition-colors">
-            <a href="#privacy" className="hover:underline hover:text-peloka-primary transition-all">{t.privacy}</a>
-            <a href="#terms" className="hover:underline hover:text-peloka-primary transition-all">{t.terms}</a>
-            <a href="#support" className="hover:underline hover:text-peloka-primary transition-all">{t.support}</a>
+            <button 
+              onClick={() => setModalType('privacy')}
+              className="hover:underline hover:text-peloka-primary transition-all cursor-pointer bg-transparent border-none p-0 text-xs text-peloka-on-surface-variant/60"
+            >
+              {t.privacy}
+            </button>
+            <button 
+              onClick={() => setModalType('terms')}
+              className="hover:underline hover:text-peloka-primary transition-all cursor-pointer bg-transparent border-none p-0 text-xs text-peloka-on-surface-variant/60"
+            >
+              {t.terms}
+            </button>
+            <button 
+              onClick={() => setModalType('support')}
+              className="hover:underline hover:text-peloka-primary transition-all cursor-pointer bg-transparent border-none p-0 text-xs text-peloka-on-surface-variant/60"
+            >
+              {t.support}
+            </button>
           </div>
           <p className="font-sans text-[11px] text-peloka-on-surface-variant/40 tracking-wider">
             &copy; 2026 {t.copyright}
           </p>
         </div>
       </footer>
+
+      {/* Dynamic Info Modals for Privacy, Terms, Support */}
+      <InfoModal 
+        isOpen={!!modalType} 
+        type={modalType} 
+        onClose={() => setModalType(null)} 
+      />
     </div>
   );
 }

@@ -20,13 +20,16 @@ interface OutcomePanelProps {
 export default function OutcomePanel(props: OutcomePanelProps) {
   const { outcome, isDeciding, logs, onFlushBuffer, onReDecide, addLog } = props;
   const { t } = useLanguage();
-  const logEndRef = useRef<HTMLDivElement>(null);
+  const logContainerRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
-  // Auto scroll logs
+  // Auto scroll logs internally in the log terminal div, avoiding global viewport jumping
   useEffect(() => {
-    if (logEndRef.current) {
-      logEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (logContainerRef.current) {
+      logContainerRef.current.scrollTo({
+        top: logContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }, [logs]);
 
@@ -191,7 +194,10 @@ export default function OutcomePanel(props: OutcomePanelProps) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 font-mono text-[11px] leading-relaxed flex flex-col gap-1.5 select-text">
+        <div 
+          ref={logContainerRef}
+          className="flex-1 overflow-y-auto p-4 font-mono text-[11px] leading-relaxed flex flex-col gap-1.5 select-text"
+        >
           {logs.map((log) => (
             <div key={log.id} className="flex items-start gap-2 animate-fade-in break-all">
               <span className="text-peloka-on-surface-variant/40 shrink-0">[{log.timestamp}]</span>
@@ -203,7 +209,6 @@ export default function OutcomePanel(props: OutcomePanelProps) {
               </span>
             </div>
           ))}
-          <div ref={logEndRef} />
         </div>
       </div>
     </div>

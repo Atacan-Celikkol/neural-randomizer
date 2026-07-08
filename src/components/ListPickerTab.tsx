@@ -129,7 +129,7 @@ export default function ListPickerTab(props: ListPickerTabProps) {
             onKeyDown={handleKeyDown}
             disabled={isDeciding}
             placeholder={t.placeholderList}
-            className="w-full min-h-[100px] max-h-[150px] p-4 rounded-xl bg-peloka-bg-dark border border-peloka-surface-highest/60 focus:border-peloka-primary focus:ring-1 focus:ring-peloka-primary text-peloka-on-surface font-sans text-sm placeholder-peloka-on-surface-variant/40 outline-none transition-all duration-300 resize-y"
+            className="w-full min-h-[100px] max-h-[150px] p-4 rounded-xl bg-peloka-bg-dark border border-peloka-surface-highest/60 focus:border-peloka-primary focus:ring-1 focus:ring-peloka-primary text-peloka-on-surface font-sans text-base md:text-sm placeholder-peloka-on-surface-variant/40 outline-none transition-all duration-300 resize-y"
           />
           <button
             onClick={() => handleAddItems(inputValue)}
@@ -203,7 +203,7 @@ export default function ListPickerTab(props: ListPickerTabProps) {
                       max={10}
                       value={weights[index] || 1}
                       onChange={(e) => handleWeightChange(index, parseInt(e.target.value) || 1)}
-                      className="w-10 px-1 py-0.5 font-mono text-center text-xs bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-primary rounded outline-none"
+                      className="w-10 px-1 py-0.5 font-mono text-center text-base md:text-xs bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-primary rounded outline-none"
                     />
                   </div>
                 )}

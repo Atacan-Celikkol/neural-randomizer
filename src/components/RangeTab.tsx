@@ -67,7 +67,7 @@ export default function RangeTab(props: RangeTabProps) {
             value={min}
             onChange={(e) => setMin(parseInt(e.target.value) || 0)}
             disabled={isDeciding}
-            className="w-full px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest/60 focus:border-peloka-primary focus:ring-1 focus:ring-peloka-primary text-peloka-on-surface font-mono text-sm outline-none transition-all duration-300"
+            className="w-full px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest/60 focus:border-peloka-primary focus:ring-1 focus:ring-peloka-primary text-peloka-on-surface font-mono text-base md:text-sm outline-none transition-all duration-300"
           />
         </div>
 
@@ -80,7 +80,7 @@ export default function RangeTab(props: RangeTabProps) {
             value={max}
             onChange={(e) => setMax(parseInt(e.target.value) || 0)}
             disabled={isDeciding}
-            className="w-full px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest/60 focus:border-peloka-primary focus:ring-1 focus:ring-peloka-primary text-peloka-on-surface font-mono text-sm outline-none transition-all duration-300"
+            className="w-full px-3 py-2.5 rounded-lg bg-peloka-bg-dark border border-peloka-surface-highest/60 focus:border-peloka-primary focus:ring-1 focus:ring-peloka-primary text-peloka-on-surface font-mono text-base md:text-sm outline-none transition-all duration-300"
           />
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function RangeTab(props: RangeTabProps) {
             value={count}
             onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
             disabled={isDeciding}
-            className="w-16 px-2 py-1 font-mono text-center text-xs bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-primary rounded outline-none"
+            className="w-16 px-2 py-1 font-mono text-center text-base md:text-xs bg-peloka-bg-dark border border-peloka-surface-highest text-peloka-primary rounded outline-none"
           />
         </div>
 
