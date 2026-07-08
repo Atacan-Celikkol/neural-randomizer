@@ -8,8 +8,7 @@ export type LanguageType = 'en' | 'tr';
 export const translations = {
   en: {
     // Header & Global
-    neuralRandomizer: 'Neural Randomizer',
-    biotechEngine: 'Neural Decision Engine',
+    title: 'Synaptic Entropy Core',
     tagline: 'Harness bio-tech precision to eliminate decision fatigue instantly.',
     sysStatus: 'SYS',
     statusNominal: 'NOMINAL',
@@ -129,8 +128,7 @@ export const translations = {
   },
   tr: {
     // Header & Global
-    neuralRandomizer: 'Neural Randomizer',
-    biotechEngine: 'Neural Decision Engine',
+    title: 'Sinaptik Entropi Çekirdeği',
     tagline: 'Karar yorgunluğunu anında ortadan kaldırmak için biyo-teknolojik hassasiyetten yararlanın.',
     sysStatus: 'SYS',
     statusNominal: 'NOMİNAL',

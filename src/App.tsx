@@ -13,6 +13,7 @@ import OutcomePanel from './components/OutcomePanel';
 import InfoModal from './components/InfoModal';
 import { TabType, LogEntry, LogCategory, DecisionOutcome } from './types';
 import { useLanguage } from './lib/LanguageContext';
+import Logo from './components/Logo';
 
 export default function App() {
   const { t, language } = useLanguage();
@@ -135,7 +136,7 @@ export default function App() {
         setOutcome(outcomeObj);
         setIsDeciding(false);
         setSystemStatus('COMPLETED');
-        
+
         const logMsg = t.logOutcomeResolved.replace('"{val}"', `"${result.value}"`);
         addLog(`${logMsg} "${result.value}"`, LogCategory.NODE);
       } catch (err: any) {
@@ -159,7 +160,7 @@ export default function App() {
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
         const randomThreshold = Math.random() * totalWeight;
         let cumulativeWeight = 0;
-        
+
         for (let i = 0; i < items.length; i++) {
           cumulativeWeight += weights[i];
           if (randomThreshold <= cumulativeWeight) {
@@ -167,7 +168,7 @@ export default function App() {
             break;
           }
         }
-        
+
         const probabilityPercent = ((weights[selectedIndex] / totalWeight) * 100).toFixed(1);
         infoString = t.infoWeighted
           .replace('{probability}', probabilityPercent)
@@ -218,12 +219,12 @@ export default function App() {
         for (let i = 0; i < count; i++) {
           let attempts = 0;
           let num = Math.floor(min + Math.random() * (difference + 1));
-          
+
           while (!allowDuplicates && used.has(num) && attempts < 1000) {
             num = Math.floor(min + Math.random() * (difference + 1));
             attempts++;
           }
-          
+
           used.add(num);
           results.push(num.toString());
         }
@@ -298,7 +299,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen font-sans bg-peloka-bg text-peloka-on-surface transition-colors duration-300 flex flex-col relative overflow-x-hidden max-w-full">
-      
+
       {/* Absolute Decorative Grid Backdrops */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-peloka-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -312,13 +313,10 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 md:px-8 py-8 md:py-12 flex flex-col justify-center relative z-10">
-        
+
         {/* App Title Center Panel */}
         <div className="text-center mb-8 md:mb-12 select-none">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-peloka-primary/10 border border-peloka-primary/25 rounded-full font-mono text-[10px] text-peloka-primary tracking-widest uppercase mb-4 animate-pulse-glow">
-            <Cpu className="w-3.5 h-3.5" />
-            {t.biotechEngine}
-          </span>
+          <Logo size={72} className="mx-auto mb-4" />
           <h1 className="font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight drop-shadow-md">
             {darkMode ? (
               <span className="bg-gradient-to-r from-white via-[#ffe5d3] to-peloka-primary bg-clip-text text-transparent">
@@ -330,49 +328,50 @@ export default function App() {
               </span>
             )}
           </h1>
-          <p className="font-sans text-sm md:text-base text-peloka-on-surface-variant/85 max-w-md mx-auto mt-3 leading-relaxed">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-peloka-primary/10 border border-peloka-primary/25 rounded-full font-mono text-[10px] text-peloka-primary tracking-widest uppercase my-4 animate-electrical-static">
+            <Cpu className="w-3.5 h-3.5" />
+            {t.title}
+          </span>
+          <p className="font-sans text-sm md:text-base text-peloka-on-surface-variant/85 max-w-md mx-auto leading-relaxed">
             {t.tagline}
           </p>
         </div>
 
         {/* Dashboard Grid split 3/2 */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 items-stretch">
-          
+
           {/* Left panel: Control Input tabs */}
           <div className="lg:col-span-3 flex flex-col border border-peloka-surface-high/60 rounded-2xl bg-peloka-surface-container-low/90 backdrop-blur-md overflow-hidden shadow-xl">
             {/* Tab selector */}
             <div className="flex border-b border-peloka-surface-high/50 bg-peloka-bg-dark/20 p-1.5 select-none">
               <button
                 onClick={() => setTab('list')}
-                className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                  tab === 'list'
+                className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${tab === 'list'
                     ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
                     : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
-                }`}
+                  }`}
               >
                 <ListCollapse className="w-3.5 h-3.5" />
                 {t.listPicker}
               </button>
-              
+
               <button
                 onClick={() => setTab('range')}
-                className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                  tab === 'range'
+                className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${tab === 'range'
                     ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
                     : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
-                }`}
+                  }`}
               >
                 <Sliders className="w-3.5 h-3.5" />
                 {t.range}
               </button>
-              
+
               <button
                 onClick={() => setTab('quick')}
-                className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                  tab === 'quick'
+                className={`flex-1 py-3 px-4 rounded-xl font-display text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${tab === 'quick'
                     ? 'bg-peloka-surface-high text-peloka-primary border border-peloka-surface-highest/50 glow-orange/10'
                     : 'text-peloka-on-surface-variant/70 hover:text-peloka-on-surface hover:bg-peloka-surface/30'
-                }`}
+                  }`}
               >
                 <Zap className="w-3.5 h-3.5" />
                 {t.quickDecide}
@@ -425,19 +424,19 @@ export default function App() {
       <footer className="w-full py-8 mt-12 border-t border-peloka-surface-high/20 bg-peloka-bg-dark/40 backdrop-blur-md relative z-10 select-none text-center">
         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-3">
           <div className="flex items-center gap-6 font-sans text-xs text-peloka-on-surface-variant/60 hover:text-peloka-on-surface-variant transition-colors">
-            <button 
+            <button
               onClick={() => setModalType('privacy')}
               className="hover:underline hover:text-peloka-primary transition-all cursor-pointer bg-transparent border-none p-0 text-xs text-peloka-on-surface-variant/60"
             >
               {t.privacy}
             </button>
-            <button 
+            <button
               onClick={() => setModalType('terms')}
               className="hover:underline hover:text-peloka-primary transition-all cursor-pointer bg-transparent border-none p-0 text-xs text-peloka-on-surface-variant/60"
             >
               {t.terms}
             </button>
-            <button 
+            <button
               onClick={() => setModalType('support')}
               className="hover:underline hover:text-peloka-primary transition-all cursor-pointer bg-transparent border-none p-0 text-xs text-peloka-on-surface-variant/60"
             >
@@ -451,10 +450,10 @@ export default function App() {
       </footer>
 
       {/* Dynamic Info Modals for Privacy, Terms, Support */}
-      <InfoModal 
-        isOpen={!!modalType} 
-        type={modalType} 
-        onClose={() => setModalType(null)} 
+      <InfoModal
+        isOpen={!!modalType}
+        type={modalType}
+        onClose={() => setModalType(null)}
       />
     </div>
   );

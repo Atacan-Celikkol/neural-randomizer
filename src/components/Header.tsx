@@ -46,7 +46,7 @@ export default function Header(props: HeaderProps) {
             Peloka Decision
           </span>
           <span className="font-mono text-[9px] tracking-widest text-peloka-primary/80 uppercase select-none">
-            {t.neuralRandomizer} Core v3.5
+            {t.title} v1.4
           </span>
         </div>
       </div>
@@ -102,4 +102,3 @@ export default function Header(props: HeaderProps) {
     </header>
   );
 }
-
